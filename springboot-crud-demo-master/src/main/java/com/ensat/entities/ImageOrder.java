@@ -3,20 +3,25 @@ package com.ensat.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 
-
 /**
  * The persistent class for the image_order database table.
  * 
  */
 @Entity
-@Table(name="image_order")
-@NamedQuery(name="ImageOrder.findAll", query="SELECT i FROM ImageOrder i")
+@Table(name = "image_order")
+@NamedQueries({ 
+	@NamedQuery(name = "ImageOrder.findAll", query = "SELECT i FROM ImageOrder i"),
+	@NamedQuery(name = "ImageOrder.getDistinctOrder", query = "SELECT DISTINCT i FROM ImageOrder i")
+	})
 public class ImageOrder implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+
+	@Column(name = "order_code")
+	private String orderCode;
 
 	@Column(name = "material")
 	private String material;
@@ -29,18 +34,27 @@ public class ImageOrder implements Serializable {
 
 	@Column(name = "username")
 	private String username;
-	
+
 	@Column(name = "city")
 	private String city;
-	
+
 	@Column(name = "address_detail")
 	private String addressDetail;
-	
+
 	@Column(name = "phone")
 	private String phone;
-	
+
 	@Column(name = "email")
 	private String email;
+
+	@Column(name = "image_name")
+	private String imageName;
+	
+	@Column(name = "status")
+	private String status;
+	
+	@Column(name = "date_order")
+	private String dateOrder;
 
 	public int getId() {
 		return this.id;
@@ -112,6 +126,38 @@ public class ImageOrder implements Serializable {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getImageName() {
+		return imageName;
+	}
+
+	public void setImageName(String imageName) {
+		this.imageName = imageName;
+	}
+
+	public String getOrderCode() {
+		return orderCode;
+	}
+
+	public void setOrderCode(String orderCode) {
+		this.orderCode = orderCode;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public String getDateOrder() {
+		return dateOrder;
+	}
+
+	public void setDateOrder(String dateOrder) {
+		this.dateOrder = dateOrder;
 	}
 	
 	

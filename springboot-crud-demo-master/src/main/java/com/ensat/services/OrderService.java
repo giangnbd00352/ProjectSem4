@@ -13,5 +13,7 @@ public interface OrderService {
 	ImageOrder saveOrder(ImageOrder order);
 
     void deleteImageOrder(Integer id);
+    
+    Iterable<ImageOrder> getDistinctOrder();
 
 }

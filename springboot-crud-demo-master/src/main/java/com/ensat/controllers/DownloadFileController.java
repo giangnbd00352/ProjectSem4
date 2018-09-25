@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
 import com.ensat.entities.FileInfo;
+import com.ensat.entities.ImageOrder;
 import com.ensat.entities.User;
 import com.ensat.services.FileStorage;
+import com.ensat.services.OrderService;
 import com.ensat.services.UserService;
 
 @Controller
@@ -28,6 +30,9 @@ public class DownloadFileController {
 	
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	OrderService orderService;
 	
 	/*
 	 * Retrieve Files' Information
@@ -49,8 +54,11 @@ public class DownloadFileController {
 				.collect(Collectors.toList());
 		
 		model.addAttribute("files", fileInfos);
+		
+		Iterable<ImageOrder> lists = orderService.getDistinctOrder();
+		model.addAttribute("lists", lists);
 		return "listfiles";
-	}
+	} 
  
     /*
      * Download Files
