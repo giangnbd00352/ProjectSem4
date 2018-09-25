@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>Profile Page</title>
+<style>
+[type="date"] {
+	background: #fff
+		url(https://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/calendar_2.png)
+		97% 50% no-repeat;
+}
+
+[type="date"]::-webkit-inner-spin-button {
+	display: none;
+}
+
+[type="date"]::-webkit-calendar-picker-indicator {
+	opacity: 0;
+}
+
+/* custom styles */
+body {
+	padding: 4em;
+	background: #e5e5e5;
+	font: 13px/1.4 Geneva, 'Lucida Sans', 'Lucida Grande',
+		'Lucida Sans Unicode', Verdana, sans-serif;
+}
+
+label {
+	display: block;
+}
+
+input {
+	border: 1px solid #c4c4c4;
+	border-radius: 5px;
+	background-color: #fff;
+	padding: 3px 5px;
+	box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.1);
+	width: 190px;
+}
+</style>
+</head>
+<body>
+	<h2>
+		Profile: <span th:utext="${user.firstname}"></span>
+	</h2>
+	<br />
+	<h3>
+		Email: <span th:utext="${user.email}"></span>
+	</h3>
+	<br />
+	<h3>
+		ID: <span th:utext="${user.id}"></span>
+	</h3>
+	<br />
+	<form class="form-horizontal" th:object="${user}"
+		th:action="@{/profile}" method="post">
+		<input type="hidden" th:field="*{id}" /> <input type="hidden"
+			th:field="*{email}" /> <input type="hidden" th:field="*{password}" />
+		<div class="form-group">
+			<label class="col-sm-2 control-label">First Name:</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" th:field="*{firstname}" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Last Name:</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" th:field="*{lastname}" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="dateofbirth">Date Of Birth</label>
+			<div class="col-sm-10">
+				<input type="date" name="dateofbirth" id="dateofbirth"
+					th:field="*{birthday}">
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Address:</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" th:field="*{address}" />
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Phone:</label>
+			<div class="col-sm-10">
+				<input type="text" class="form-control" th:field="*{phone}" />
+			</div>
+		</div>
+		<div class="row">
+			<button type="submit" class="btn btn-default">Submit</button>
+		</div>
+	</form>
+</body>

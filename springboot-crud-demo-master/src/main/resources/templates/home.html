@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+<meta charset="UTF-8" />
+<meta charset="ISO-8859-1" />
+<title>Insert title here</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script
+	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style>
+/* Remove the navbar's default rounded borders and increase the bottom margin */
+.navbar {
+	margin-bottom: 50px;
+	border-radius: 0;
+}
+
+/* Remove the jumbotron's default bottom margin */
+.jumbotron {
+	margin-bottom: 0;
+}
+
+/* Add a gray background color and some padding to the footer */
+footer {
+	background-color: #f2f2f2;
+	padding: 25px;
+}
+</style>
+</head>
+<body>
+
+	<div class="jumbotron">
+		<div class="container text-center">
+			<h1>Image Printing</h1>
+		</div>
+	</div>
+
+	<nav class="navbar navbar-inverse">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle" data-toggle="collapse"
+					data-target="#myNavbar">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#">Logo</a>
+			</div>
+			<div class="collapse navbar-collapse" id="myNavbar">
+				<ul class="nav navbar-nav">
+					<li class="active"><a href="#">Home</a></li>
+					<li><a href="#">Products</a></li>
+					<li><a href="#">Deals</a></li>
+					<li><a href="#">Stores</a></li>
+					<li><a th:href="@{/files}">Cart</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a th:href="@{/profile}"><span
+							class="glyphicons glyphicons-log-out" id="userName"
+							th:utext="${userName}"></span></a></li>
+					<li><a th:href="@{/logout}"><span
+							class="glyphicons glyphicons-log-out"></span> Log out</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container">
+		<div class="row">
+			<table>
+				<tr th:each="post : ${posts}">
+					<div class="col-sm-4">
+						<div class="panel panel-primary">
+							<div class="panel-heading">
+								<p th:text="${post.title}"></p>
+							</div>
+							<div class="panel-body">
+								<img src="https://placehold.it/150x80?text=IMAGE"
+									class="img-responsive" style="width: 100%" alt="Image" />
+							</div>
+							<div class="panel-footer">
+								<p th:text="${post.content}"></p>
+								<a href="editPost" class="btn btn-success">Details</a>
+							</div>
+						</div>
+					</div>
+				</tr>
+			</table>
+		</div>
+
+		<div class="row">
+			<form method="POST" enctype="multipart/form-data" id="fileUploadForm"
+				th:action="@{/upload}">
+				<input type="hidden" id="inputvalue" class="form-control"
+					name="name" />
+				<div class="form-group">
+					<label class="control-label" for="uploadfile">Upload File:</label>
+					<input type="file" class="form-control" id="uploadfile"
+						placeholder="Upload File" multiple="multiple" name="uploadfile"></input>
+				</div>
+				<div class="form-group">
+					<label class="control-label" for="material">Material:</label> <select
+						id="material" name="material">
+						<option value="Cup">Cốc</option>
+						<option value="Shirt">Áo</option>
+						<option value="Gudgeon">Khung Sắt</option>
+						<option value="Wood">Khung Gỗ</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label class="control-label" for="size">Size:</label> <select
+						id="size" name="size">
+						<option value="S">S</option>
+						<option value="M">M</option>
+						<option value="L">L</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label class="control-label" for="quantity">Quantity:</label>
+						<input type="number" step="1" class="form-control" id="quantity"
+						placeholder="Quantity" name="quantity" required="required"></input>
+				</div>
+				<div class="form-group">
+					<label class="control-label" for="city">City:</label> <select
+						id="city" name="city">
+						<option value="Ha Noi">Hà Nội</option>
+						<option value="Thai Nguyen">Thái Nguyên</option>
+						<option value="Bac Ninh">Bắc Ninh</option>
+						<option value="Quang Ninh">Quảng Ninh</option>
+						<option value="Nghe An">Nghệ An</option>
+					</select>
+				</div>
+				<div class="form-group">
+					<label class="control-label" for="address">Address Details:</label>
+						<input type="text" class="form-control" id="address"
+						placeholder="Address Details" name="address" required="required"></input>
+				</div>
+				<div class="form-group">
+					<label class="control-label" for="phone">Number Phone:</label>
+						<input type="text" class="form-control" id="phone"
+						placeholder="Number Phone" name="phone" required="required"></input>
+				</div>
+				<div class="form-group">
+					<label class="control-label" for="email">Email:</label>
+						<input type="email" class="form-control" id="email"
+						placeholder="Email" name="email" required="required"></input>
+				</div>
+				<button type="submit" class="btn btn-default" id="btnSubmit">Upload</button>
+			</form>
+			<div th:if="${message}">
+				<span th:text="${message}" />
+			</div>
+		</div>
+	</div>
+	<br />
+
+	<footer class="container-fluid text-center">
+		<p>Travel Copyright</p>
+		<form class="form-inline">
+			Get deals: <input type="email" class="form-control" size="50"
+				placeholder="Email Address" />
+			<button type="button" class="btn btn-danger">Sign Up</button>
+		</form>
+	</footer>
+
+	<script>
+		var x = document.getElementById("userName").textContent;
+		document.getElementById("inputvalue").value = x;
+	</script>
+
+	<script>
+		function increase() {
+			var x = document.getElementById("quantity").textContent;
+			x++;
+			document.getElementById("quantity").textContent = x;
+		}
+
+		function decrease() {
+			var x = document.getElementById("quantity").textContent;
+			if (x > 1) {
+				x--;
+				document.getElementById("quantity").textContent = x;
+			}
+		}
+	</script>
+
+
+</body>
+</html>

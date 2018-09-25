@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+ xmlns:th="http://www.thymeleaf.org">
+<head lang="en">
+    <title>Spring Boot Example</title>
+    <!--/*/ <th:block th:include="fragments/headerinc :: head"></th:block> /*/-->
+</head>
+<body>
+
+<div class="container">
+    <!--/*/ <th:block th:include="fragments/header :: header"></th:block> /*/-->
+</div>
+
+  <h2>Hi <span th:utext="${userName}"></span>, this is the home page.</h2>
+  <a th:href="@{/logout}">Sign out</a>
+</body>
+</html>
