@@ -55,7 +55,7 @@ footer {
 					<li><a href="#">Products</a></li>
 					<li><a href="#">Deals</a></li>
 					<li><a href="#">Stores</a></li>
-					<li><a th:href="@{/files}">Cart</a></li>
+					<li><a th:href="@{/files}">Order</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a th:href="@{/profile}"><span
@@ -97,9 +97,12 @@ footer {
 				<input type="hidden" id="inputvalue" class="form-control"
 					name="name" />
 				<div class="form-group">
-					<label class="control-label" for="uploadfile">Upload File:</label>
-					<input type="file" class="form-control" id="uploadfile"
-						placeholder="Upload File" multiple="multiple" name="uploadfile"></input>
+					<label class="control-label" for="files">Upload File:</label> <input
+						type="file" class="form-control" id="files"
+						placeholder="Upload File" multiple="multiple" name="uploadfile"  onclick="myFunction()"></input>
+				</div>
+				<div class="form-group">
+					<output id="list"></output>
 				</div>
 				<div class="form-group">
 					<label class="control-label" for="material">Material:</label> <select
@@ -119,8 +122,8 @@ footer {
 					</select>
 				</div>
 				<div class="form-group">
-					<label class="control-label" for="quantity">Quantity:</label>
-						<input type="number" step="1" class="form-control" id="quantity"
+					<label class="control-label" for="quantity">Quantity:</label> <input
+						type="number" step="1" class="form-control" id="quantity"
 						placeholder="Quantity" name="quantity" required="required"></input>
 				</div>
 				<div class="form-group">
@@ -135,18 +138,18 @@ footer {
 				</div>
 				<div class="form-group">
 					<label class="control-label" for="address">Address Details:</label>
-						<input type="text" class="form-control" id="address"
+					<input type="text" class="form-control" id="address"
 						placeholder="Address Details" name="address" required="required"></input>
 				</div>
 				<div class="form-group">
-					<label class="control-label" for="phone">Number Phone:</label>
-						<input type="text" class="form-control" id="phone"
+					<label class="control-label" for="phone">Number Phone:</label> <input
+						type="text" class="form-control" id="phone"
 						placeholder="Number Phone" name="phone" required="required"></input>
 				</div>
 				<div class="form-group">
-					<label class="control-label" for="email">Email:</label>
-						<input type="email" class="form-control" id="email"
-						placeholder="Email" name="email" required="required"></input>
+					<label class="control-label" for="email">Email:</label> <input
+						type="email" class="form-control" id="email" placeholder="Email"
+						name="email" required="required"></input>
 				</div>
 				<button type="submit" class="btn btn-default" id="btnSubmit">Upload</button>
 			</form>
@@ -166,6 +169,9 @@ footer {
 		</form>
 	</footer>
 
+<!-- 		<input type="file" id="abc" /> -->
+
+
 	<script>
 		var x = document.getElementById("userName").textContent;
 		document.getElementById("inputvalue").value = x;
@@ -183,6 +189,53 @@ footer {
 			if (x > 1) {
 				x--;
 				document.getElementById("quantity").textContent = x;
+			}
+		}
+	</script>
+
+	<script>
+		function handleFileSelect(evt) {
+			var files = evt.target.files;
+
+			// Loop through the FileList and render image files as thumbnails.
+			for (var i = 0, f; f = files[i]; i++) {
+
+				// Only process image files.
+				if (!f.type.match('image.*')) {
+					continue;
+				}
+
+				var reader = new FileReader();
+
+				// Closure to capture the file information.
+				reader.onload = (function(theFile) {
+					return function(e) {
+						// Render thumbnail.
+						var span = document.createElement('span');
+						span.innerHTML = [
+								'<img style="height: 75px; border: 1px solid #000; margin: 5px" src="',
+								e.target.result, '" title="',
+								escape(theFile.name), '"/>' ].join('');
+
+						document.getElementById('list')
+								.insertBefore(span, null);
+					};
+				})(f);
+
+				// Read in the image file as a data URL.
+				reader.readAsDataURL(f);
+			}
+		}
+
+		document.getElementById('files').addEventListener('change',
+				handleFileSelect, false);
+	</script>
+
+	<script>
+		function myFunction() {
+			var myNode = document.getElementById("list");
+			while (myNode.firstChild) {
+				myNode.removeChild(myNode.firstChild);
 			}
 		}
 	</script>
